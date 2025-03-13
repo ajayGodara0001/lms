@@ -1,17 +1,20 @@
 import React from 'react'
-import { NavLink } from 'react-router-dom'
+import { NavLink, useNavigate } from 'react-router-dom'
 import { User } from 'lucide-react';
 import { useClerk, UserButton, useUser } from '@clerk/clerk-react';
-const Navbar = () => {
 
+import logo from "../../assets/logo.png"
+
+const Navbar = () => {
+    const navigate = useNavigate()
    const { user } = useUser()
    const { openSignIn } = useClerk()
   const isCourseListPage = location.pathname.includes("/courselist")
   return (
-    <div className= {`flex items-center justify-between px-4 sm:px-10 md:px-14 lg:px-36 border-b border-gray-500 py-4 ${isCourseListPage ? "bg-white" : "bg-cyan-100/70"}`}>
+    <div className= {`flex items-center justify-between px-4 sm:px-10 md:px-14 lg:px-36 border-b border-gray-500 py-4 ${isCourseListPage ? "bg-white" : "bg-cyan-200/70"}`}>
       
-      <img src="https://img.freepik.com/free-vector/branding-identity-corporate-vector-logo-letter-m-design_460848-13901.jpg?ga=GA1.1.653980845.1741865784&semt=ais_hybrid" alt="logo_img" className='w-12 lg:w-16 cursor-pointer'  />
-
+      <img src={logo} alt="logo_img" onClick={() => navigate("/")} className='w-12 cursor-pointer '  />
+ 
       <div className='hidden md:flex items-center gap-5 text-gray-500'>
         <div className='flex gap-3'>
          { user && 

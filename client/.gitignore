@@ -1,0 +1,28 @@
+# ⚡ Vite Build Output
+dist/
+.vite/
+
+# 🏗 Dependencies
+node_modules/
+
+# 🔑 Environment Variables
+.env
+.env.local
+.env.development
+.env.production
+
+# ⚙️ Logs and Debugging Files
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+
+# 🖥️ Editor & System Files
+.DS_Store      # macOS system file
+Thumbs.db      # Windows system file
+.vscode/       # VS Code settings (optional)
+.idea/         # JetBrains IDE settings
+
+# 🚀 Deployment
+.vercel/       # Vercel build folder (if deploying)
+.netlify/      # Netlify build folder (if deploying)

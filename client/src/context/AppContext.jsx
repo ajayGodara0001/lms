@@ -1,12 +1,15 @@
-import { createContext } from "react";
+import { createContext, useState } from "react";
 
-const AppContext = createContext()
+export const AppContext = createContext()
+
 
 
 const AppContextProvider = (props) => {
 
-    const value = {
+    const [isEducator, setIsEducator] = useState(false)
 
+    const value = {
+        isEducator, setIsEducator
     }
 
     return (
@@ -18,4 +21,4 @@ const AppContextProvider = (props) => {
     )
 }
 
-export   default AppContextProvider 
+export  default AppContextProvider 

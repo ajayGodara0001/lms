@@ -2,10 +2,13 @@ import React from 'react'
 import { NavLink, useNavigate } from 'react-router-dom'
 import { User } from 'lucide-react';
 import { useClerk, UserButton, useUser } from '@clerk/clerk-react';
-
+import { useContext } from 'react';
 import logo from "../../assets/logo.png"
+import { AppContext } from '../../context/AppContext';
 
 const Navbar = () => {
+ const { isEducator } = useContext(AppContext)
+
     const navigate = useNavigate()
    const { user } = useUser()
    const { openSignIn } = useClerk()
@@ -19,7 +22,9 @@ const Navbar = () => {
         <div className='flex gap-3'>
          { user && 
          <>
-           <button>Become Educator</button>
+          
+            <button onClick={() => navigate("/educator")} className='cursor-pointer'> { isEducator ? "Educator Dashboard" : "Become Educator"}</button>
+          
           <span>|</span>
           <NavLink to={"/myenrollments"}>My Enrollments </NavLink>
          </>}
@@ -35,7 +40,8 @@ const Navbar = () => {
       <div className='flex items-center gap-1 sm:gap-2 max-sm:text-xs'>
       { user && 
          <>
-           <button>Become Educator</button>
+           <button onClick={() => navigate("/educator")} className='cursor-pointer'> { isEducator ? "Educator Dashboard" : "Become Educator"}</button>
+           
           <span>|</span>
           <NavLink to={"/myenrollments"}>My Enrollments </NavLink>
          </>}

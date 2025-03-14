@@ -13,10 +13,10 @@ const CoursesSection = () => {
         Gain real-world expertise and take your career to the next level.
       </p>
 
-<CourseCard />
+<CourseCard limit={4} hero={true} />
 
-      <NavLink to="/allcourses">
-        <button className="mt-6 px-6 py-3 bg-blue-600 cursor-pointer text-white text-lg font-medium rounded-lg shadow-md hover:bg-blue-700 transition-all">
+      <NavLink to="/allcourses" >
+        <button onClick={() => scrollTo(0,0)} className="mt-6 px-6 py-3 bg-blue-600 cursor-pointer text-white text-lg font-medium rounded-lg shadow-md hover:bg-blue-700 transition-all">
           Show All Courses
         </button>
       </NavLink>

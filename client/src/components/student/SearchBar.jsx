@@ -1,16 +1,15 @@
-import { useState } from "react";
+import { useContext, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Search } from "lucide-react";
+import { AppContext } from "../../context/AppContext";
 
 const SearchBar = () => {
-  const [query, setQuery] = useState("");
+  const { searchQuery, setSearchQuery } = useContext(AppContext)
   const navigate = useNavigate();
 
   const handleSearch = (e) => {
     e.preventDefault();
-    if (query.trim()) {
-      navigate(`/allcourses?search=${query}`);
-    }
+      navigate(`/allcourses`);
   };
 
   return (
@@ -24,9 +23,9 @@ const SearchBar = () => {
       {/* Input Field */}
       <input
         type="text"
-        placeholder="Search your courses"
-        value={query}
-        onChange={(e) => setQuery(e.target.value)}
+         placeholder="Search courses..."
+        value={searchQuery}
+        onChange={(e) => setSearchQuery(e.target.value)}
         className="flex-1 outline-none text-gray-700 placeholder-gray-400 bg-transparent"
       />
 

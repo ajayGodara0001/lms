@@ -5,6 +5,8 @@ import Navbar from './components/student/Navbar'
 import AllCourses from './pages/student/AllCourses'
 import Educator from './pages/educator/Educator'
 import DetailCourse from './pages/student/DetailCourse'
+import MyEnrollments from './pages/student/MyEnrollments'
+import Player from './pages/student/Player'
 
 const App = () => {
   const isEducatorRoute = useMatch("/educator/*") 
@@ -15,8 +17,9 @@ const App = () => {
         <Route path='/' element={<Home />}/>
         <Route path='/allcourses' element={<AllCourses />}/>
         <Route path='/course/:id' element={<DetailCourse />}/>
-        <Route path='/educator' element={<Educator />}>
-         
+        <Route path='/myenrollments' element={<MyEnrollments />}/>
+        <Route path='/player/:id' element={<Player />}/>
+        <Route path='/educator' element={<Educator />}>  
         </Route>
       </Routes>
     </div>

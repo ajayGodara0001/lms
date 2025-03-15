@@ -11,12 +11,14 @@ const AppContextProvider = (props) => {
     const [isEducator, setIsEducator] = useState(false)
     const [allcourse, setAllCourses] = useState([])
     const [isEnrolled, setIsEnrolled] = useState(false)
+    const [enrolledCourse, setEnrolledcourse] = useState([])
     const navigate = useNavigate()
 
     const [searchQuery, setSearchQuery] = useState()
 
     useEffect(() => {
         setAllCourses(courseData)
+       setEnrolledcourse(courseData)
     }, [])
 
 
@@ -82,7 +84,7 @@ const AppContextProvider = (props) => {
    
     
 const value = {
-    isEducator,noOfLesson, setIsEducator,totalTimeOfCourse,isEnrolled,lecTime, totalTimeOfChapter, noOfLecture, allcourse, navigate, searchQuery, setSearchQuery
+    enrolledCourse, isEducator,noOfLesson, setIsEducator,totalTimeOfCourse,isEnrolled,lecTime, totalTimeOfChapter, noOfLecture, allcourse, navigate, searchQuery, setSearchQuery
 }
 
 return (

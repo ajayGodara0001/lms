@@ -182,3 +182,31 @@ export const testimonials = [
   ];
   
   
+ export  const DashBoardData = {
+    totalEnrollments: 120,
+    totalEarnings: 5000, // Example in dollars
+    totalCourses: 8,
+    enrolledStudents: [
+      {
+        courseTitle: "React for Beginners",
+        student:
+          { name: "Alice Johnson", imgUrl: "https://randomuser.me/api/portraits/women/1.jpg" }
+          
+        
+      },
+      {
+        courseTitle: "Advanced Node.js",
+        student: 
+          { name: "Emma Wilson", imgUrl: "https://randomuser.me/api/portraits/women/2.jpg" }
+        
+      },
+      {
+        courseTitle: "Full-Stack Web Development",
+        student: 
+          { name: "Olivia Brown", imgUrl: "https://randomuser.me/api/portraits/women/3.jpg" }
+      }
+    ]
+  };
+  
+  export default DashBoardData;
+  

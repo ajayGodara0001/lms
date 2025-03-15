@@ -1,7 +1,7 @@
 import { createContext, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { allCourses as courseData } from "../assets/dummyData";
-
+import { DashBoardData } from "../assets/dummyData";
 export const AppContext = createContext()
 
 
@@ -13,12 +13,14 @@ const AppContextProvider = (props) => {
     const [isEnrolled, setIsEnrolled] = useState(false)
     const [enrolledCourse, setEnrolledcourse] = useState([])
     const navigate = useNavigate()
+    const [dashBoardData, setDashboardData] = useState([])
 
     const [searchQuery, setSearchQuery] = useState()
 
     useEffect(() => {
         setAllCourses(courseData)
        setEnrolledcourse(courseData)
+       setDashboardData(DashBoardData)
     }, [])
 
 
@@ -84,7 +86,7 @@ const AppContextProvider = (props) => {
    
     
 const value = {
-    enrolledCourse, isEducator,noOfLesson, setIsEducator,totalTimeOfCourse,isEnrolled,lecTime, totalTimeOfChapter, noOfLecture, allcourse, navigate, searchQuery, setSearchQuery
+    enrolledCourse,dashBoardData, isEducator,noOfLesson, setIsEducator,totalTimeOfCourse,isEnrolled,lecTime, totalTimeOfChapter, noOfLecture, allcourse, navigate, searchQuery, setSearchQuery
 }
 
 return (

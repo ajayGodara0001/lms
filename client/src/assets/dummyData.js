@@ -70,7 +70,24 @@ export const testimonials = [
           ],
         },
       ],
-    },
+      "educator": "675ac1512100b91a6d9b8b24",
+      "enrolledStudents": [
+          "user_2qQlvXyr02B4Bq6hT0Gvaa5fT9V",
+          "user_2qQlvXyr02B4Bq6hT0Gvaa5fT9V",
+          "user_2qjlgkAqIMpiR2flWIRzvWKtE0w"
+      ],
+      "courseRatings": [
+          {
+              "userId": "user_2qjlgkAqIMpiR2flWIRzvWKtE0w",
+              "rating": 5,
+              "_id": "6773e37360cb0ab974342314"
+          }
+      ],
+      "createdAt": "2024-12-17T08:16:53.622Z",
+      "updatedAt": "2025-01-02T04:47:44.701Z",
+      "__v": 4,
+      "courseThumbnail": "https://img.youtube.com/vi/CBWnBi-awSA/maxresdefault.jpg"
+  },
     {
       id: 2,
       image: "https://images.unsplash.com/photo-1562813733-b31f71025d54?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTF8fGNvZGluZ3xlbnwwfHwwfHx8MA%3D%3D",
@@ -103,6 +120,23 @@ export const testimonials = [
           ],
         },
       ],
+      "educator": "675ac1512100b91a6d9b8b24",
+      "enrolledStudents": [
+          "user_2qQlvXyr02B4Bq6hT0Gvaa5fT9V",
+          "user_2qQlvXyr02B4Bq6hT0Gvaa5fT9V",
+          "user_2qjlgkAqIMpiR2flWIRzvWKtE0w"
+      ],
+      "courseRatings": [
+          {
+              "userId": "user_2qjlgkAqIMpiR2flWIRzvWKtE0w",
+              "rating": 5,
+              "_id": "6773e37360cb0ab974342314"
+          }
+      ],
+      "createdAt": "2024-12-17T08:16:53.622Z",
+      "updatedAt": "2025-01-02T04:47:44.701Z",
+      "__v": 4,
+      "courseThumbnail": "https://img.youtube.com/vi/CBWnBi-awSA/maxresdefault.jpg"
     },
     {
       id: 3,
@@ -145,6 +179,23 @@ export const testimonials = [
           ],
         },
       ],
+      "educator": "675ac1512100b91a6d9b8b24",
+      "enrolledStudents": [
+          "user_2qQlvXyr02B4Bq6hT0Gvaa5fT9V",
+          "user_2qQlvXyr02B4Bq6hT0Gvaa5fT9V",
+          "user_2qjlgkAqIMpiR2flWIRzvWKtE0w"
+      ],
+      "courseRatings": [
+          {
+              "userId": "user_2qjlgkAqIMpiR2flWIRzvWKtE0w",
+              "rating": 5,
+              "_id": "6773e37360cb0ab974342314"
+          }
+      ],
+      "createdAt": "2024-12-17T08:16:53.622Z",
+      "updatedAt": "2025-01-02T04:47:44.701Z",
+      "__v": 4,
+      "courseThumbnail": "https://img.youtube.com/vi/CBWnBi-awSA/maxresdefault.jpg"
     },
     {
       id: 4,
@@ -178,7 +229,25 @@ export const testimonials = [
           ],
         },
       ],
+      "educator": "675ac1512100b91a6d9b8b24",
+      "enrolledStudents": [
+          "user_2qQlvXyr02B4Bq6hT0Gvaa5fT9V",
+          "user_2qQlvXyr02B4Bq6hT0Gvaa5fT9V",
+          "user_2qjlgkAqIMpiR2flWIRzvWKtE0w"
+      ],
+      "courseRatings": [
+          {
+              "userId": "user_2qjlgkAqIMpiR2flWIRzvWKtE0w",
+              "rating": 5,
+              "_id": "6773e37360cb0ab974342314"
+          }
+      ],
+      "createdAt": "2024-12-17T08:16:53.622Z",
+      "updatedAt": "2025-01-02T04:47:44.701Z",
+      "__v": 4,
+      "courseThumbnail": "https://img.youtube.com/vi/CBWnBi-awSA/maxresdefault.jpg"
     },
+
   ];
   
   

@@ -1,13 +1,12 @@
 import { Webhook } from "svix";
 import User from "../models/User.js";
-import { json } from "express";
 
 export const clerkWebhooks = async(req, res) =>{
         try {
             const whook = new Webhook(process.env.CLERK_WEBHOOK_SECRET)
-            await whook.verify(JSON.stringify(req.body), {
+            const evt =   await whook.verify(JSON.stringify(req.body), {
                 "svix-id" : req.headers["svix-id"],
-                "svix-timestamps" : req.headers["svix-timestamps"],
+                "svix-timestamp" : req.headers["svix-timestamp"],
                 "svix-signature" : req.headers["svix-signature"]
             })
             const { type, data } = evt;

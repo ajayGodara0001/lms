@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { ChevronDown, ChevronRight, X } from "lucide-react";
+import uniqid from "uniqid";
 
 const AddCourse = () => {
   const [course, setCourse] = useState({
@@ -37,33 +38,54 @@ const AddCourse = () => {
       ...prev,
       courseContent: [
         ...prev.courseContent,
-        { chapterTitle: "", chapterContent: [] }
-      ]
+        {
+          chapterId: uniqid(),
+          chapterTitle: `New Chapter ${prev.courseContent.length + 1}`, // Default title
+          chapterOrder: prev.courseContent.length + 1,
+          chapterContent: [],
+        },
+      ],
     }));
   };
+  
 
   const handleRemoveChapter = (index) => {
     const updatedChapters = [...course.courseContent];
     updatedChapters.splice(index, 1);
     setCourse((prev) => ({ ...prev, courseContent: updatedChapters }));
   };
-
   const handleChapterChange = (index, value) => {
-    const updatedChapters = [...course.courseContent];
-    updatedChapters[index].chapterTitle = value;
-    setCourse((prev) => ({ ...prev, courseContent: updatedChapters }));
+    setCourse((prev) => ({
+      ...prev,
+      courseContent: prev.courseContent.map((chapter, i) =>
+        i === index ? { ...chapter, chapterTitle: value } : chapter
+      ),
+    }));
   };
-
   const handleAddLecture = (chapterIndex) => {
-    const updatedChapters = [...course.courseContent];
-    updatedChapters[chapterIndex].chapterContent.push({
-      lectureTitle: "",
-      lectureDuration: "",
-      lectureUrl: "",
-      isPreviewFree: false
-    });
-    setCourse((prev) => ({ ...prev, courseContent: updatedChapters }));
+    setCourse((prev) => ({
+      ...prev,
+      courseContent: prev.courseContent.map((chapter, i) =>
+        i === chapterIndex
+          ? {
+              ...chapter,
+              chapterContent: [
+                ...chapter.chapterContent,
+                {
+                  lectureId: uniqid(),
+                  lectureTitle: `Lecture ${chapter.chapterContent.length + 1}`, // Default title
+                  lectureDuration: 0,
+                  lectureUrl: "",
+                  isPreviewFree: false,
+                  lectureOrder: chapter.chapterContent.length + 1,
+                },
+              ],
+            }
+          : chapter
+      ),
+    }));
   };
+  
 
   const handleRemoveLecture = (chapterIndex, lectureIndex) => {
     const updatedChapters = [...course.courseContent];
@@ -72,15 +94,42 @@ const AddCourse = () => {
   };
 
   const handleLectureChange = (chapterIndex, lectureIndex, name, value) => {
-    const updatedChapters = [...course.courseContent];
-    updatedChapters[chapterIndex].chapterContent[lectureIndex][name] = value;
-    setCourse((prev) => ({ ...prev, courseContent: updatedChapters }));
+    setCourse((prev) => ({
+      ...prev,
+      courseContent: prev.courseContent.map((chapter, i) =>
+        i === chapterIndex
+          ? {
+              ...chapter,
+              chapterContent: chapter.chapterContent.map((lecture, j) =>
+                j === lectureIndex ? { ...lecture, [name]: value } : lecture
+              ),
+            }
+          : chapter
+      ),
+    }));
   };
+  
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    console.log(course);
+  
+    // Ensure no empty chapters
+    if (course.courseContent.some(chapter => chapter.chapterTitle.trim() === "")) {
+      alert("All chapters must have a title.");
+      return;
+    }
+  
+    // Ensure no empty lectures
+    for (const chapter of course.courseContent) {
+      if (chapter.chapterContent.some(lecture => lecture.lectureTitle.trim() === "")) {
+        alert(`All lectures in '${chapter.chapterTitle}' must have a title.`);
+        return;
+      }
+    }
+  
+    console.log("Course submitted successfully!", course);
   };
+  
 
   return (
     <div className="p-6 max-w-3xl mx-auto">
@@ -92,8 +141,8 @@ const AddCourse = () => {
         <input type="number" name="discount" placeholder="Discount (%)" value={course.discount} onChange={handleChange} className="border p-2 w-full mb-4" />
         <button type="button" onClick={handleAddChapter} className="bg-blue-500 text-white p-2 rounded">Add Chapter</button>
         {course.courseContent.map((chapter, chapterIndex) => (
-          <div key={chapterIndex} className="mt-4 border p-4 relative">
-            <button className="absolute top-7  cursor-pointer right-6 text-red-500" onClick={() => handleRemoveChapter(chapterIndex)}><X size={20} /></button>
+          <div key={chapter.chapterId} className="mt-4 border p-4 relative">
+            <button className="absolute top-7 cursor-pointer right-6 text-red-500" onClick={() => handleRemoveChapter(chapterIndex)}><X size={20} /></button>
             <div className="flex items-center cursor-pointer" onClick={() => toggleChapterVisibility(chapterIndex)}>
               {visibleChapters[chapterIndex] ? <ChevronDown /> : <ChevronRight />}
               <input type="text" placeholder="Chapter Title" value={chapter.chapterTitle} onChange={(e) => handleChapterChange(chapterIndex, e.target.value)} className="border p-2 w-full mb-2 ml-2" />
@@ -107,7 +156,7 @@ const AddCourse = () => {
                   </div>
                 )}
                 {visibleLectures[chapterIndex] && chapter.chapterContent.map((lecture, lectureIndex) => (
-                  <div key={lectureIndex} className="mt-2 border p-2 relative">
+                  <div key={lecture.lectureId} className="mt-2 border p-2 relative">
                     <button className="absolute top-5 cursor-pointer right-4 text-red-500" onClick={() => handleRemoveLecture(chapterIndex, lectureIndex)}><X size={20} /></button>
                     <input type="text" placeholder="Lecture Title" value={lecture.lectureTitle} onChange={(e) => handleLectureChange(chapterIndex, lectureIndex, "lectureTitle", e.target.value)} className="border p-2 w-full mb-2" />
                     <input type="number" placeholder="Duration (minutes)" value={lecture.lectureDuration} onChange={(e) => handleLectureChange(chapterIndex, lectureIndex, "lectureDuration", e.target.value)} className="border p-2 w-full mb-2" />

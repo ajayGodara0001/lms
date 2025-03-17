@@ -4,12 +4,12 @@ import User from "../models/User.js";
 export const clerkWebhooks = async(req, res) =>{
         try {
             const whook = new Webhook(process.env.CLERK_WEBHOOK_SECRET)
-            const evt =   await whook.verify(JSON.stringify(req.body), {
+            await whook.verify(JSON.stringify(req.body), {
                 "svix-id" : req.headers["svix-id"],
                 "svix-timestamp" : req.headers["svix-timestamp"],
                 "svix-signature" : req.headers["svix-signature"]
             })
-            const { type, data } = evt;
+            const { type, data } = req.body;
 
             console.log("✅ Webhook received:", type, data);
     
@@ -22,8 +22,7 @@ export const clerkWebhooks = async(req, res) =>{
                         email: data.email_addresses[0]?.email_address,
                         imageUrl: data.image_url,
                     });
-                    console.log("👤 New user added:", data.id);
-                    res.json({})
+                    return res.json({})
                     break;
     
                 case "user.updated":
@@ -33,27 +32,23 @@ export const clerkWebhooks = async(req, res) =>{
                         email: data.email_addresses[0]?.email_address,
                         imageUrl: data.image_url,
                     });
-                    console.log("🔄 User updated:", data.id);
-                    res.json({})
-
+                    return res.json({})
                     break;
     
                 case "user.deleted":
                     // Remove user from MongoDB
                     await User.findByIdAndDelete(data.id);
-                    console.log("❌ User deleted:", data.id);
-                    res.json({})
+                    return res.json({})
                     break;
     
                 default:
-                    console.log("⚠️ Unhandled webhook event:", type);
                     break;
             }
     
-            res.status(200).send("Webhook processed");
+           return  res.status(200).json({message:"Webhook processed"});
     
         } catch (error) {
-            res.json({success:false, message: error.message})
+            return res.json({success:false, message: error.message})
         }
 
 }

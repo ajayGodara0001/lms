@@ -14,6 +14,8 @@ import StudentEnrolled from './pages/educator/StudentEnrolled'
 import { ToastContainer } from 'react-toastify';
 import Privacy from './pages/privacy'
 import Refund from './pages/refund'
+import Terms from './pages/Terms'
+import Contact from './pages/Contact'
 
 const App = () => {
   const isEducatorRoute = useMatch("/educator/*")
@@ -29,6 +31,8 @@ const App = () => {
         <Route path='/player/:id' element={<Player />} />
         <Route path='/privacy' element={<Privacy />} />
         <Route path='/refund' element={<Refund />} />
+        <Route path='/terms' element={<Terms />} />
+        <Route path='/contact' element={<Contact />} />
 
         <Route path='/educator' element={<Educator />}>
   {/* Redirect `/educator` to `/educator/dashboard` */}

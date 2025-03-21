@@ -3,15 +3,14 @@ import { AppContext } from '../../context/AppContext';
 
 const MyCourse = () => {
     const [course, setCourse] = useState(null);
-    const { allcourse } = useContext(AppContext);
+    const { educatorCourses } = useContext(AppContext);
 
     const fetchCourse = () => {
-        setCourse(allcourse);
+        setCourse(educatorCourses);
     };
-
     useEffect(() => {
         fetchCourse();
-    }, []);
+    });
 
     return (
         <div className="bg-white shadow-lg rounded-lg overflow-hidden p-4">
@@ -29,11 +28,11 @@ const MyCourse = () => {
                     {course?.map((item) => (
                         <tr key={item.id} className="border-b hover:bg-gray-50">
                             <td className="p-4 flex items-center gap-3">
-                                <img src={item.image} alt="" className="w-10 h-10 rounded-full shadow-md" />
-                                <span className="text-gray-800">{item.title}</span>
+                                <img src={item.courseThumbnail} alt="" className="w-10 h-10 rounded-full shadow-md" />
+                                <span className="text-gray-800">{item.courseTitle}</span>
                             </td>
                             <td className="p-4">
-                                ${Math.floor(item.enrolledStudents.length * (item.price - (item.discount * item.price) / 100))}
+                                ${Math.floor(item.enrolledStudents.length * (item.coursePrice - (item.discount * item.coursePrice) / 100))}
                             </td>
                             <td className="p-4">{item.enrolledStudents.length}</td>
                             <td className="p-4">

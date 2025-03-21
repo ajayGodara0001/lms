@@ -1,18 +1,19 @@
-import React, { useEffect, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { dummyStudentEnrolled } from '../../assets/assets';
 import Loading from '../../components/student/Loading';
+import { AppContext } from '../../context/AppContext';
 
 const StudentEnrolled = () => {
     const [enrolledStudent, setEnrolledStudent] = useState(null);
-
+    const { dashBoardData } = useContext(AppContext)
     const fetchEnrolledStudent = () => {
-        setEnrolledStudent(dummyStudentEnrolled);
+        setEnrolledStudent(dashBoardData);
     };
 
     useEffect(() => {
         fetchEnrolledStudent();
-    }, []);
-
+    })
+    
     const formatDateToIST = (utcDate) => {
         const date = new Date(utcDate);
         return date.toLocaleString('en-IN', {
@@ -38,11 +39,11 @@ const StudentEnrolled = () => {
                     </tr>
                 </thead>
                 <tbody>
-                    {enrolledStudent.map((item, index) => (
+                    {enrolledStudent?.enrolledStudensData?.map((item, index) => (
                         <tr key={index} className="border-b hover:bg-gray-50">
                             <td className="p-4">{index + 1}</td>
                             <td className="p-4 flex items-center gap-3">
-                                <img src={item.student.imageUrl} alt="" className="w-10 h-10 rounded-full shadow-md" />
+                                <img src={item.student.imageUrl} alt="image" className="w-10 h-10 rounded-full shadow-md" />
                                 <span className="text-gray-800">{item.student.name}</span>
                             </td>
                             <td className="p-4">{item.courseTitle}</td>

@@ -11,18 +11,24 @@ import Dashboard from './pages/educator/Dashboard'
 import AddCourse from './pages/educator/AddCourse'
 import MyCourse from './pages/educator/MyCourse'
 import StudentEnrolled from './pages/educator/StudentEnrolled'
+import { ToastContainer } from 'react-toastify';
+import Privacy from './pages/privacy'
+import Refund from './pages/refund'
 
 const App = () => {
   const isEducatorRoute = useMatch("/educator/*")
   return (
     <div className='text-default bg-white min-h-screen'>
       {!isEducatorRoute && <Navbar />}
+      <ToastContainer />
       <Routes>
         <Route path='/' element={<Home />} />
         <Route path='/allcourses' element={<AllCourses />} />
         <Route path='/course/:id' element={<DetailCourse />} />
         <Route path='/myenrollments' element={<MyEnrollments />} />
         <Route path='/player/:id' element={<Player />} />
+        <Route path='/privacy' element={<Privacy />} />
+        <Route path='/refund' element={<Refund />} />
 
         <Route path='/educator' element={<Educator />}>
   {/* Redirect `/educator` to `/educator/dashboard` */}

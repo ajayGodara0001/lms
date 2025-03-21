@@ -8,21 +8,29 @@ import Rating from '../../components/student/Rating';
 
 const Player = () => {
     const { id } = useParams();
-    const { allcourse, noOfLecture, totalTimeOfChapter, lecTime } = useContext(AppContext);
+    const { enrolledCourse, noOfLecture, totalTimeOfChapter, lecTime } = useContext(AppContext);
 
     const [course, setCourse] = useState(null);
     const [player, setPlayer] = useState(null);
     const [lecture, setLecture] = useState(null);
     const [chapter, setChapter] = useState(null);
+    const [mark, setMark] = useState("Mark Complete");
     const [openChapters, setOpenChapters] = useState({});
 
     useEffect(() => {
-        setCourse(allcourse.find((c) => c.id === Number(id)));
-    }, [id, allcourse]);
+        setCourse(enrolledCourse.find((c) => c._id === (id)));
+    }, [id, enrolledCourse]);
+  
 
     const toggleChapter = (index) => {
         setOpenChapters((prev) => ({ ...prev, [index]: !prev[index] }));
     };
+
+    const markComplete = () => {
+        if(mark == "Mark Complete" ){
+            setMark("Completed")
+        }
+    }
 
     return (
         <>
@@ -30,7 +38,7 @@ const Player = () => {
                 {/* Left: Course Structure */}
                 <div className="w-full  md:w-1/2 lg:w-2/3">
                     <h1 className="text-xl font-semibold mb-4">Course Structure</h1>
-                    {course?.courseContent.map((chapter, index) => (
+                    {course?.courseContent?.map((chapter, index) => (
                         <div key={index} className="mb-4 border border-gray-300 rounded-lg p-4">
                             {/* Chapter Title & Toggle Button */}
                             <div className="flex items-center justify-between cursor-pointer" onClick={() => toggleChapter(index)}>
@@ -40,7 +48,8 @@ const Player = () => {
                                 </div>
                                 <div className="flex items-center gap-3 text-sm text-gray-600">
                                     <p><strong>Lectures:</strong> {noOfLecture(chapter.chapterContent || [])}</p>
-                                    <p><strong>Duration:</strong> {totalTimeOfChapter(chapter.chapterContent)}</p>
+                                    {/* <p><strong>Duration:</strong> {totalTimeOfChapter(chapter.chapterContent)}</p> */}
+                                    <p><strong>Duration:</strong> {" 12 fix it "}</p>
                                 </div>
                             </div>
 
@@ -49,13 +58,13 @@ const Player = () => {
                                 <div className="mt-3">
                                     {/* Lectures List */}
                                     <div className="mt-2 space-y-2">
-                                        {chapter.chapterContent.map((lec, i) => (
+                                        {chapter?.chapterContent?.map((lec, i) => (
                                             <div key={i} className="p-3 bg-gray-100 flex items-center justify-between rounded-md">
-                                                <h3 className="font-medium">{lec.title}</h3>
+                                                <h3 className="font-medium">{lec.lectureTitle}</h3>
                                                 <div className="flex gap-5 text-sm">
                                                     <p
                                                         onClick={() => {
-                                                            setPlayer({ videoid: lec.url });
+                                                            setPlayer({ videoid: lec.lectureUrl });
                                                             setLecture(lec);
                                                             setChapter(chapter);
                                                         }}
@@ -63,7 +72,8 @@ const Player = () => {
                                                     >
                                                         Watch
                                                     </p>
-                                                    <p className="text-gray-600">{lecTime(lec)}</p>
+                                                    {/* <p className="text-gray-600">{lecTime(lec)}</p> */}
+                                                    <p className="text-gray-600">{"12 fix it"}</p>
                                                 </div>
                                             </div>
                                         ))}
@@ -90,16 +100,17 @@ const Player = () => {
                             />
                             <div className="w-full mt-4 p-3 bg-gray-50 rounded-md shadow-md text-center">
                                 <p className="text-lg font-semibold">
-                                    {chapter?.chapterId}.{lecture?.lectureId} {lecture?.title}
+                                    {chapter?.chapterOrder}.{lecture?.lectureOrder } | {lecture?.lectureTitle
+                                    }
                                 </p>
                             </div>
-                            <button className="mt-3 px-4 py-2 bg-green-500 text-white rounded-md shadow-md hover:bg-green-600">
-                                Mark Complete
+                            <button onClick={markComplete} className="mt-3 px-4 py-2 bg-green-500 text-white rounded-md shadow-md hover:bg-green-600">
+                               {mark}
                             </button>
                         </>
                     ) : (
                         <img
-                            src={course?.image}
+                            src={course?.courseThumbnail}
                             alt="Course"
                             className="w-full rounded-lg shadow-lg"
                         />

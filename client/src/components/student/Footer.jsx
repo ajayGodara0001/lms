@@ -21,8 +21,8 @@ const Footer = () => {
             <nav className="mt-3 flex flex-col gap-3 text-gray-400">
               <a href="#" className="hover:text-white transition">Home</a>
               <a href="#" className="hover:text-white transition">About Us</a>
-              <a href="#" className="hover:text-white transition">Contact Us</a>
-              <a href="#" className="hover:text-white transition">Privacy Policy</a>
+              <a href="/refund" className="hover:text-white transition">Refund Policy</a>
+              <a href="/privacy" className="hover:text-white transition">Privacy Policy</a>
             </nav>
           </div>
 

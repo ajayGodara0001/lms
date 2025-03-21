@@ -381,7 +381,6 @@ export const dummyCourses = [
         "courseThumbnail": "https://img.youtube.com/vi/lpx2zFkapIk/maxresdefault.jpg"
     },
     {
-        "_id": "605c72efb3f1c2b1f8e4e1ac",
         "courseTitle": "Cloud Computing Essentials",
         "courseDescription": "<h2>Master Cloud Fundamentals</h2><p>Learn the foundations of cloud computing and explore popular cloud platforms like AWS, Azure, and Google Cloud. This course is ideal for IT professionals and developers looking to transition to cloud-based solutions.</p><p>By the end of this course, you will understand cloud services, deployment models, and best practices for using cloud resources efficiently.</p><ul><li>Understand cloud architecture</li><li>Learn to work with AWS, Azure, and GCP</li><li>Explore serverless computing and storage solutions</li></ul>",
         "coursePrice": 69.99,
@@ -435,16 +434,7 @@ export const dummyCourses = [
                 ]
             }
         ],
-        "educator": "675ac1512100b91a6d9b8b24",
-        "enrolledStudents": [
-            "user_2qjlgkAqIMpiR2flWIRzvWKtE0w"
-        ],
-        "courseRatings": [],
-        "createdAt": "2024-12-17T08:16:53.622Z",
-        "updatedAt": "2024-12-31T05:32:55.357Z",
-        "__v": 1,
-        "courseThumbnail": "https://img.youtube.com/vi/0yboGn8errU/maxresdefault.jpg"
-    },
+        },
     {
         "_id": "605c72efb3f1c2b1f8e4e1ad",
         "courseTitle": "Data Science with Python",

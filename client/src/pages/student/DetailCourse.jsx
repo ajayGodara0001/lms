@@ -191,7 +191,7 @@ const DetailCourse = () => {
           <div className="p-4 bg-gray-50 rounded-lg shadow-md">
             <div className="flex justify-between items-center">
               <span className="text-2xl font-bold text-blue-600">
-                ${course?.coursePrice - (course?.discount * course?.coursePrice) / 100}
+              ₹{course?.coursePrice - (course?.discount * course?.coursePrice) / 100}
               </span>
               <span className="text-gray-500 line-through">${course?.coursePrice}</span>
               <span className="text-red-600 text-sm font-medium">{course?.discount}% off</span>

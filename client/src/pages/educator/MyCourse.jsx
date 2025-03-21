@@ -32,7 +32,7 @@ const MyCourse = () => {
                                 <span className="text-gray-800">{item.courseTitle}</span>
                             </td>
                             <td className="p-4">
-                                ${Math.floor(item.enrolledStudents.length * (item.coursePrice - (item.discount * item.coursePrice) / 100))}
+                            ₹{Math.floor(item.enrolledStudents.length * (item.coursePrice - (item.discount * item.coursePrice) / 100))}
                             </td>
                             <td className="p-4">{item.enrolledStudents.length}</td>
                             <td className="p-4">

@@ -13,7 +13,7 @@ const Dashboard = () => {
           <span className="text-gray-700 text-lg">Total Enrollments</span>
         </div>
         <div className="bg-green-100 p-6 rounded-lg shadow-md text-center">
-          <h2 className="text-3xl font-bold text-green-600">${dashBoardData.totalEarnings}</h2>
+          <h2 className="text-3xl font-bold text-green-600">₹{dashBoardData.totalEarnings}</h2>
           <span className="text-gray-700 text-lg">Total Earnings</span>
         </div>
         <div className="bg-yellow-100 p-6 rounded-lg shadow-md text-center">

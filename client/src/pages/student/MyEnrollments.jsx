@@ -48,8 +48,7 @@ const MyEnrollments = () => {
                       <p className="font-medium text-sm md:text-base">{course.courseTitle}</p>
                     </td>
                     <td className="p-3 border border-gray-300 text-sm md:text-base">
-                      {/* {totalTimeOfCourse(course.courseContent)} */}
-                      {"12 fix it"}
+                    {totalTimeOfCourse(course?.courseContent)} mins
                     </td>
                     <td className="p-3 border border-gray-300 text-sm md:text-base">
                       <div className="flex flex-col gap-2">

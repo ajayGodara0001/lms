@@ -15,6 +15,7 @@ const DetailCourse = () => {
   const { id } = useParams();
 
 
+  const [loading, setLoading] = useState(false)
   const [player, setPlayer] = useState(null)
   const [course, setCourse] = useState(null)
   const [educatorName, setEducatorName] = useState("");
@@ -26,6 +27,8 @@ const DetailCourse = () => {
       if (data.success) {
         setCourse(data.courseData)
         setEducatorName(data.educator)
+       
+        
         
       } else {
         toast.error(data.message)
@@ -38,10 +41,13 @@ const DetailCourse = () => {
 
   const enrolledCourse = async () => {
     try {
+      setLoading(true)
       if (!userData) {
+        setLoading(false)
         return toast.warn("Login first")
       }
       if (isEnrolled) {
+        setLoading(false)
         return toast.warn("Already Enrolled")
       }
       const token =  await getToken()
@@ -58,6 +64,9 @@ const DetailCourse = () => {
       
 
       if(data.success){
+        console.log(data);
+        
+        setLoading(false)
         window.scrollTo(0, 0);
         setIsEnrolled(true)
         toast.warn("enrolled complete")
@@ -66,10 +75,12 @@ const DetailCourse = () => {
         }, 1000);
         return
       }else{
+        setLoading(false)
         return toast.error(data.message)
       }
     }
-   } catch (error) {
+  } catch (error) {
+     setLoading(false)
       return toast.error(error.message)
     }
   }
@@ -121,6 +132,7 @@ const DetailCourse = () => {
             <h1 className="text-xl font-semibold mb-3">Course Structure</h1>
             {course?.courseContent.map((chapter, index) => (
               <div key={index} className="mb-4 border border-gray-300 rounded-lg p-3">
+                
                 {/* Chapter Title & Toggle Button */}
                 <div className="flex items-center justify-between" onClick={() => toggleChapter(index)}>
                   <div className="flex items-center gap-2 ">
@@ -135,8 +147,8 @@ const DetailCourse = () => {
                       <strong>Lectures:</strong> {noOfLecture(chapter.chapterContent || [])}
                     </p>
                     <p className="text-gray-600 text-sm">
-                      {/* <strong>Duration:</strong>{totalTimeOfChapter(chapter)} */}
-                      <strong>Duration:</strong>12 fix it
+                      <strong>Duration: </strong>{totalTimeOfChapter(chapter) } mins
+                      {/* <strong>Duration:</strong>12 fix it */}
                     </p>
                   </div>
 
@@ -156,9 +168,7 @@ const DetailCourse = () => {
                               <p onClick={() => setPlayer({
                                 videoid: lec.lectureUrl
                               })} className="text-blue-500 hover:cursor-pointer hover:underline">{lec.isPreviewFree ? "Preview" : ""}</p>
-                              {/* <p className="text-sm text-gray-600">{lecTime(lec)}</p> */}
-                              <p className="text-sm text-gray-600">12 fix it</p>
-
+                              <p className="text-sm text-gray-600">{lecTime(lec)} mins</p>
                             </div>
                           </div>
                         ))}
@@ -191,9 +201,9 @@ const DetailCourse = () => {
           <div className="p-4 bg-gray-50 rounded-lg shadow-md">
             <div className="flex justify-between items-center">
               <span className="text-2xl font-bold text-blue-600">
-              ₹{course?.coursePrice - (course?.discount * course?.coursePrice) / 100}
+              ₹{Math.floor(course?.coursePrice - (course?.discount * course?.coursePrice) / 100)}
               </span>
-              <span className="text-gray-500 line-through">${course?.coursePrice}</span>
+              <span className="text-gray-500 line-through">₹{course?.coursePrice}</span>
               <span className="text-red-600 text-sm font-medium">{course?.discount}% off</span>
             </div>
           </div>
@@ -202,8 +212,7 @@ const DetailCourse = () => {
           <div className="p-4 bg-white border rounded-lg flex items-center justify-between">
             <div className="flex items-center space-x-2">
               <Clock />
-              {/* <span>{totalTimeOfCourse(course?.courseContent)}</span> */}
-              <span>233 fix it </span>
+              <span>{totalTimeOfCourse(course?.courseContent)} mins</span>
             </div>
             <div className="flex items-center space-x-2">
               <BookOpen />
@@ -214,10 +223,10 @@ const DetailCourse = () => {
           {/* Enroll Button */}
           <button
           onClick={enrolledCourse}
-            className={`w-full py-3  text-white font-semibold rounded-lg transition ${isEnrolled ? "bg-gray-500 cursor-not-allowed" : "bg-blue-600 hover:bg-blue-700 cursor-pointer"
-              }`}
+            className={`w-full py-3  text-white font-semibold rounded-lg transition ${ loading ? "bg-gray-500 cursor-not-allowed " : isEnrolled ? "bg-gray-500 cursor-not-allowed" : "bg-blue-600 hover:bg-blue-700 cursor-pointer"
+              } `}
           >
-            {isEnrolled ? "Already Enrolled" : "Enroll Now"}
+            { loading ? "Please Wait"  : isEnrolled ? "Already Enrolled" : "Enroll Now"}
           </button>
 
           {/* Course Features */}

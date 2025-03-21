@@ -7,7 +7,7 @@ const StudentEnrolled = () => {
     const [enrolledStudent, setEnrolledStudent] = useState(null);
     const { dashBoardData } = useContext(AppContext)
     const fetchEnrolledStudent = () => {
-        setEnrolledStudent(dashBoardData);
+        setEnrolledStudent(dashBoardData);       
     };
 
     useEffect(() => {

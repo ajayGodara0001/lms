@@ -7,6 +7,7 @@ const MyCourse = () => {
 
     const fetchCourse = () => {
         setCourse(educatorCourses);
+       
     };
     useEffect(() => {
         fetchCourse();

@@ -54,6 +54,7 @@ const AppContextProvider = (props) => {
             const { data } = await axios.get(backendUrl + '/api/course/all')
             if (data.success) {
                 setAllCourses(data.courses)
+
             } else {
                 toast.error(data.message)
             }
@@ -174,50 +175,27 @@ console.log(error.message);
 
     const totalTimeOfCourse = (course) => {
         let totalTime = 0;
-        course.forEach((lecture) => {
-            lecture.chapterContent.forEach((lec) => {
-                const [minutes, seconds] = lec.lectureDuration.split(":").map(Number);
-                totalTime += minutes * 60 + seconds;  // Convert to total seconds
-            });
-        });
-        const hours = Math.floor(totalTime / 3600);
-        const minutes = Math.floor((totalTime % 3600) / 60);
-        const seconds = totalTime % 60;
-        return `${hours > 0 ? hours + ":" : ""}${String(minutes).padStart(2, "0")}:${String(seconds).padStart(2, "0")}`;
-
+       course.map((chapter) => {
+        chapter.chapterContent.map((lec) => {
+          totalTime += lec.lectureDuration    
+        })   
+       })
+        return totalTime
     };
 
     const totalTimeOfChapter = (chapter) => {
         let totalTime = 0;
-        chapter.forEach((lec) => {
 
-            const [minutes, seconds] = lec.duration.split(":").map(Number);
-            totalTime += minutes * 60 + seconds;  // Convert to total seconds
-
-        });
-
-
-        const hours = Math.floor(totalTime / 3600);
-        const minutes = Math.floor((totalTime % 3600) / 60);
-        const seconds = totalTime % 60;
-        return `${hours > 0 ? hours + ":" : ""}${String(minutes).padStart(2, "0")}:${String(seconds).padStart(2, "0")}`;
-
-
+       chapter.chapterContent.map((lecture) => {
+            totalTime += lecture.lectureDuration    
+        })
+        
+        return totalTime;
     };
 
     const lecTime = (lec) => {
-        let totalTime = 0;
-        {
-            const [minutes, seconds] = lec.duration.split(":").map(Number);
-            totalTime += minutes * 60 + seconds;
-        }// Convert to total seconds
-
-
-        const hours = Math.floor(totalTime / 3600);
-        const minutes = Math.floor((totalTime % 3600) / 60);
-        const seconds = totalTime % 60;
-        return `${hours > 0 ? hours + ":" : ""}${String(minutes).padStart(2, "0")}:${String(seconds).padStart(2, "0")}`;
-
+      return lec.lectureDuration
+      
     }
 
 

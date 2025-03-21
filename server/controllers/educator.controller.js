@@ -144,8 +144,7 @@ export const educatordashboardData = async(req, res) => {
             })
         }
         res.json({success: true, dashboardData: {
-            totalCourse,totalEarnings,enrolledStudensData
-        }})
+            totalCourse,totalEarnings,enrolledStudensData, purchases      }})
     } catch (error) {
         res.json({success: false, message: error.message})
         

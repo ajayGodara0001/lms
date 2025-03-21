@@ -351,6 +351,14 @@ if(data.success){
                       className="border p-2 w-full mb-2"
                     />
                     {errors[`lectureDuration-${chapterIndex}-${lectureIndex}`] && <p className="text-red-500 text-sm">{errors[`lectureDuration-${chapterIndex}-${lectureIndex}`]}</p>}
+                    {/* add here is preview free or not */}
+                    <input
+        type="checkbox"
+        checked={lecture.isPreviewFree}
+        onChange={(e) => handleLectureChange(chapterIndex, lectureIndex, "isPreviewFree", e.target.checked)}
+        className="mr-2"
+      />
+      <label>Is this lecture free to preview?</label>
                   </div>
                 ))}
               </>

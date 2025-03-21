@@ -31,7 +31,7 @@ const courseSchema = new mongoose.Schema({
     enrolledStudents:[{
         type:String, ref:'User'
     }]
-}, { timeseries: true, minimize:false})
+}, { timestamps: true, minimize:false})
 
 
 const Course = mongoose.model("Course", courseSchema)

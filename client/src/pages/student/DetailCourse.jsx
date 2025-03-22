@@ -165,7 +165,7 @@ const DetailCourse = () => {
                             <div className="flex gap-5">
                               <p onClick={() => setPlayer({
                                 videoid: lec.lectureUrl
-                              })} className="text-blue-500 hover:cursor-pointer hover:underline">{lec.isPreviewFree ? "Preview" : ""}</p>
+                              })} className="text-blue-500 hover:cursor-pointer hover:underline"><a href="#play">{lec.isPreviewFree ? "Preview" : ""}</a></p>
                               <p className="text-sm text-gray-600">{lecTime(lec)} mins</p>
                             </div>
                           </div>
@@ -186,7 +186,7 @@ const DetailCourse = () => {
         </div>
 
         {/* Left Section (1/2 on Large Screens, Below Right Section on Mobile) */}
-        <div className="w-full md:w-2/5 space-y-6">
+        <div id="play" className="w-full md:w-2/5 space-y-6">
           {/* Course Image */}
           {
             player ? (

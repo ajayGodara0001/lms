@@ -9,23 +9,47 @@ import axios from 'axios';
 import { toast } from 'react-toastify';
 const Player = () => {
     const { id } = useParams();
-    const { enrolledCourse, backendUrl, noOfLecture,userData,getToken, totalTimeOfChapter, lecTime } = useContext(AppContext);
+    const {  backendUrl, noOfLecture,userData,getToken, totalTimeOfChapter, lecTime } = useContext(AppContext);
     
     const [course, setCourse] = useState(null);
     const [player, setPlayer] = useState(null);
     const [lecture, setLecture] = useState(null);
     const [chapter, setChapter] = useState(null);
     const [rating, setRating] = useState(0);
+    const [enrolledCourse, setEnrolledcourse] = useState(null);
      const [openChapters, setOpenChapters] = useState({});
     
+
+     const fetchUserEnrolledCourses = async () => {
+        try {
+
+            const token = await getToken()
+            const { data } = await axios.get(backendUrl + '/api/user/enrolled-courses', {
+                headers: {
+                    Authorization: `Bearer ${token}`
+                }
+            })
+
+            if (data.success) {
+                setEnrolledcourse(data.enrolledCourses)
+            } else {
+                toast.error(data.message)
+            }
+
+        } catch (error) {
+            toast.error(error.message)
+        }
+    }
  const markComplete =  async (lectureId) => {
         try {
                
+            
                const token = await getToken();
                if (!token) {
-                   console.log("Authentication failed. Please log in again.");
-                   return;
-               }
+                toast.error("Authentication failed. Please log in again.");
+                return;
+              }
+              
                const { data } = await axios.post(backendUrl +"/api/course/isCompleted/" + id,{
                    lectureId:lectureId
                }, {
@@ -38,6 +62,26 @@ const Player = () => {
                
                if (data.success) {
                    toast.success(data.message)
+                    // Update course content state
+      setCourse((prev) => ({
+        ...prev,
+        courseContent: prev.courseContent.map((chapter) => ({
+          ...chapter,
+          chapterContent: chapter.chapterContent.map((lec) =>
+            lec.lectureId === lectureId
+              ? { ...lec, isCompleted: !lec.isCompleted } // Toggle status
+              : lec
+          ),
+        })),
+      }));
+
+      // Update lecture state if the current video matches
+      if (lecture?.lectureId === lectureId) {
+        setLecture((prev) => ({
+          ...prev,
+          isCompleted: !prev.isCompleted,
+        }));
+      }
                } else{
                    toast.error(data.message);      
                }
@@ -48,11 +92,17 @@ const Player = () => {
    }
 
 
+   useEffect(() => {
+    fetchUserEnrolledCourses();
+}, [id, userData]);
 
-    useEffect(() => {
-        setCourse(enrolledCourse.find((c) => c._id === (id)));
-    }, [id,userData, markComplete, enrolledCourse]);
-  
+useEffect(() => {
+    if (enrolledCourse) {
+        setCourse(enrolledCourse.find((c) => c._id === id));
+    }
+}, [enrolledCourse]);
+
+
     useEffect(() => {
         if (course?.courseRatings?.length > 0 && userData?._id) {
           const userRating = course.courseRatings.find(item => item.userId === userData._id);
@@ -67,7 +117,9 @@ const Player = () => {
     };
 
 
-    
+    if (!course) {
+        return <p className="text-center">Loading course details...</p>;
+      }
 
     return (
         <>
@@ -99,7 +151,7 @@ const Player = () => {
                                             <div key={i} className="p-3 bg-gray-100 flex items-center justify-between rounded-md">
                                                 <h3 className="font-medium">{lec.lectureTitle}</h3>
                                                 <div className="flex gap-5 text-sm">
-                                                    <p
+                                                    <p 
                                                         onClick={() => {
                                                             setPlayer({ videoid: lec.lectureUrl });
                                                             setLecture(lec);
@@ -107,7 +159,7 @@ const Player = () => {
                                                         }}
                                                         className="text-blue-500 hover:cursor-pointer hover:underline"
                                                     >
-                                                        Watch
+                                                       <a href='#play'>watch</a>
                                                     </p>
                                                     <p className="text-gray-600">{lecTime(lec)} mins</p>
                                                 </div>
@@ -126,7 +178,7 @@ const Player = () => {
                 </div>
 
                 {/* Right: Video Player */}
-                <div className="w-full md:w-1/2 lg:w-1/3 flex flex-col items-center">
+                <div id='play' className="w-full md:w-1/2 lg:w-1/3 flex flex-col items-center">
                     {player ? (
                         <>
                             <YouTube

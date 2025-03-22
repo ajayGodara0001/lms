@@ -1,7 +1,7 @@
 import React, { useContext, useEffect, useState } from "react";
 import { AppContext } from "../../context/AppContext";
 import { useParams } from "react-router-dom";
-import { ArrowBigDown, ArrowBigRight, BookOpen, Clock, SettingsIcon } from "lucide-react";
+import { ArrowBigDown, ArrowBigRight, BookOpen, Clock } from "lucide-react";
 import Footer from "../../components/student/Footer";
 import YouTube from "react-youtube";
 import Loading from "../../components/student/Loading";
@@ -10,7 +10,7 @@ import { toast } from "react-toastify";
 
 import { handlePayment } from "../../../utils/paymentService.js";
 const DetailCourse = () => {
-  const { allcourse, noOfLecture, totalTimeOfCourse, noOfLesson, totalTimeOfChapter, lecTime, isEnrolled, userData, backendUrl, getToken, setIsEnrolled } =
+  const { avgrating, totalReviews, noOfLecture, totalTimeOfCourse, noOfLesson, totalTimeOfChapter, lecTime, isEnrolled, userData, backendUrl, getToken, setIsEnrolled } =
     useContext(AppContext);
   const { id } = useParams();
 
@@ -18,6 +18,8 @@ const DetailCourse = () => {
   const [loading, setLoading] = useState(false)
   const [player, setPlayer] = useState(null)
   const [course, setCourse] = useState(null)
+  
+  
   const [educatorName, setEducatorName] = useState("");
   const fetchCourseData = async () => {
     try {
@@ -26,10 +28,7 @@ const DetailCourse = () => {
 
       if (data.success) {
         setCourse(data.courseData)
-        setEducatorName(data.educator)
-       
-        
-        
+        setEducatorName(data.educator)    
       } else {
         toast.error(data.message)
       }
@@ -119,8 +118,8 @@ const DetailCourse = () => {
           {/* Rating & Instructor */}
           <div className="flex items-center mt-2">
             <div>
-              <span className="text-yellow-500 text-lg">⭐ {course?.rating}</span>
-              <span className="text-gray-500 text-sm ml-2">({course?.reviews} Reviews)</span>
+              <span className="text-yellow-500 text-lg">⭐ {avgrating(course.courseRatings)}</span>
+              <span className="text-gray-500 text-sm ml-2">({totalReviews(course.courseRatings) } Reviews)</span>
             </div>
             <div className="ml-4">
               <p className="text-sm text-gray-700">Course by:  {educatorName}</p>
@@ -148,7 +147,6 @@ const DetailCourse = () => {
                     </p>
                     <p className="text-gray-600 text-sm">
                       <strong>Duration: </strong>{totalTimeOfChapter(chapter) } mins
-                      {/* <strong>Duration:</strong>12 fix it */}
                     </p>
                   </div>
 

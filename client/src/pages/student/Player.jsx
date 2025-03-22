@@ -5,32 +5,69 @@ import { ArrowBigDown, ArrowBigRight } from 'lucide-react';
 import YouTube from 'react-youtube';
 import Footer from '../../components/student/Footer';
 import Rating from '../../components/student/Rating';
-
+import axios from 'axios';
+import { toast } from 'react-toastify';
 const Player = () => {
     const { id } = useParams();
-    const { enrolledCourse, noOfLecture, totalTimeOfChapter, lecTime } = useContext(AppContext);
-
+    const { enrolledCourse, backendUrl, noOfLecture,userData,getToken, totalTimeOfChapter, lecTime } = useContext(AppContext);
+    
     const [course, setCourse] = useState(null);
     const [player, setPlayer] = useState(null);
     const [lecture, setLecture] = useState(null);
     const [chapter, setChapter] = useState(null);
-    const [mark, setMark] = useState("Mark Complete");
-    const [openChapters, setOpenChapters] = useState({});
+    const [rating, setRating] = useState(0);
+     const [openChapters, setOpenChapters] = useState({});
+    
+ const markComplete =  async (lectureId) => {
+        try {
+               
+               const token = await getToken();
+               if (!token) {
+                   console.log("Authentication failed. Please log in again.");
+                   return;
+               }
+               const { data } = await axios.post(backendUrl +"/api/course/isCompleted/" + id,{
+                   lectureId:lectureId
+               }, {
+                   headers: {
+                       Authorization: `Bearer ${token}`,
+                   },
+               });
+   
+               
+               
+               if (data.success) {
+                   toast.success(data.message)
+               } else{
+                   toast.error(data.message);      
+               }
+           } catch (error) {
+               toast.error(error.message);      
+              console.log(error.message);     
+           }
+   }
+
+
 
     useEffect(() => {
         setCourse(enrolledCourse.find((c) => c._id === (id)));
-    }, [id, enrolledCourse]);
+    }, [id,userData, markComplete, enrolledCourse]);
   
+    useEffect(() => {
+        if (course?.courseRatings?.length > 0 && userData?._id) {
+          const userRating = course.courseRatings.find(item => item.userId === userData._id);
+          if (userRating) {
+            setRating(userRating.rating);
+          }
+        }
+      }, [course, userData ]); //
 
     const toggleChapter = (index) => {
         setOpenChapters((prev) => ({ ...prev, [index]: !prev[index] }));
     };
 
-    const markComplete = () => {
-        if(mark == "Mark Complete" ){
-            setMark("Completed")
-        }
-    }
+
+    
 
     return (
         <>
@@ -48,8 +85,8 @@ const Player = () => {
                                 </div>
                                 <div className="flex items-center gap-3 text-sm text-gray-600">
                                     <p><strong>Lectures:</strong> {noOfLecture(chapter.chapterContent || [])}</p>
-                                    {/* <p><strong>Duration:</strong> {totalTimeOfChapter(chapter.chapterContent)}</p> */}
-                                    <p><strong>Duration:</strong> {" 12 fix it "}</p>
+                                    <p><strong>Duration:</strong>   {totalTimeOfChapter(chapter) } mins</p>
+                                    {/* <p><strong>Duration:</strong> {" 12 fix it "}</p> */}
                                 </div>
                             </div>
 
@@ -72,8 +109,7 @@ const Player = () => {
                                                     >
                                                         Watch
                                                     </p>
-                                                    {/* <p className="text-gray-600">{lecTime(lec)}</p> */}
-                                                    <p className="text-gray-600">{"12 fix it"}</p>
+                                                    <p className="text-gray-600">{lecTime(lec)} mins</p>
                                                 </div>
                                             </div>
                                         ))}
@@ -85,7 +121,7 @@ const Player = () => {
 
                     <div className="mt-6 p-4 rounded-lg ">
                         <h1 className="text-sm font-semibold mb-2">Rate This Course</h1>
-                        <Rating initialRating={0} />
+                        <Rating initialRating={rating} id={id} />
                     </div>
                 </div>
 
@@ -104,8 +140,8 @@ const Player = () => {
                                     }
                                 </p>
                             </div>
-                            <button onClick={markComplete} className="mt-3 px-4 py-2 bg-green-500 text-white rounded-md shadow-md hover:bg-green-600">
-                               {mark}
+                            <button onClick={() => markComplete(lecture?.lectureId)} className="mt-3 px-4 py-2 bg-green-500 text-white rounded-md shadow-md hover:bg-green-600">
+                               {lecture?.isCompleted ? "Completed" : "Mark Complete"}
                             </button>
                         </>
                     ) : (

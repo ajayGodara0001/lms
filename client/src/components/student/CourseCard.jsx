@@ -4,7 +4,7 @@ import { AppContext } from "../../context/AppContext";
 
 const CourseCard = ({ limit, hero = false }) => {
   const navigate = useNavigate();
-  const { allcourse, searchQuery } = useContext(AppContext);
+  const { allcourse, searchQuery, avgrating, totalReviews } = useContext(AppContext);
 
 
   let filteredCourses = allcourse?.filter((course) =>
@@ -47,8 +47,8 @@ const CourseCard = ({ limit, hero = false }) => {
             <h2 className="text-xl font-semibold text-gray-900">{course.courseTitle}</h2>
             <p className="text-gray-600 text-sm mt-1">Instructor: {course.educator?.name}</p>
             <div className="flex items-center mt-2">
-              <span className="text-yellow-500 text-lg">⭐ {course.courseRating}</span>
-              <span className="text-gray-500 text-sm ml-2">({course.reviews} Reviews)</span>
+              <span className="text-yellow-500 text-lg">⭐ {avgrating(course.courseRatings)}</span>
+              <span className="text-gray-500 text-sm ml-2">({totalReviews(course.courseRatings) }  Reviews) </span>
             </div>
             <p className="mt-3 text-lg font-bold text-blue-600">₹{course.coursePrice}</p>
           </div>

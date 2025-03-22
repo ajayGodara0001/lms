@@ -39,3 +39,35 @@ export const getcourseId = async(req, res) =>{
         
     }
 }
+
+export const lectureIsCompleted = async (req, res) =>{
+    const { id }= req.params
+    const { lectureId } = req.body
+    try {
+        const courseData = await Course.findById(id)
+    
+       // If course is not found, return an error
+       if (!courseData) {
+        return res.status(404).json({ success: false, message: "Course not found" });
+    }
+      let lec ;
+      courseData.courseContent.map((chapter) => {
+        chapter?.chapterContent.map((lecture) => 
+       { if(lecture.lectureId === lectureId){
+            lec =  lecture
+        }
+    }
+        )    
+    })
+    
+    console.log(lec);
+    lec.isCompleted = !lec.isCompleted
+
+await courseData.save()
+
+      return  res.json({success: true, message:"Mark Updated"})
+    } catch (error) {
+        return res.json({success:true, message:error.message})
+        
+    }
+}

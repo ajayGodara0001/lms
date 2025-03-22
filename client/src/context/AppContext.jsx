@@ -10,7 +10,7 @@ export const AppContext = createContext()
 const AppContextProvider = (props) => {
 
     const [isEducator, setIsEducator] = useState(false)
-    const [userData, setUserdata] = useState(null)
+    const [userData, setUserdata] = useState(null);
     const [allcourse, setAllCourses] = useState([])
     const [isEnrolled, setIsEnrolled] = useState(false)
     const [enrolledCourse, setEnrolledcourse] = useState([])
@@ -25,7 +25,32 @@ const AppContextProvider = (props) => {
 
     const backendUrl = import.meta.env.VITE_BACKEND_URL
 
-
+const avgrating =  (item) => {
+            let totalReview = 0;
+            let totalRating = 0;
+        
+           item.map((ratings) => 
+            totalReview +=1
+           )
+           item.map((ratings) => totalRating += ratings.rating
+           )
+           
+         return   (totalRating/totalReview).toFixed(1)
+        
+            
+}
+const totalReviews =  (item) => {
+          
+            let totalReview = 0;
+           
+        
+           item.map((ratings) => 
+            totalReview +=1
+           )
+           
+          return totalReview
+            
+}
 
     const fetchEducator = async () => {
         try {
@@ -90,7 +115,7 @@ const AppContextProvider = (props) => {
             //     setIsEducator(true)
             // }
             const token = await getToken()
-            // console.log(token);
+            //  console.log(token);
 
             const { data } = await axios.get(backendUrl + '/api/user/data', {
                 headers: {
@@ -99,7 +124,7 @@ const AppContextProvider = (props) => {
             })
 
             if (data.success) {
-                setUserdata(data.user)
+                setUserdata(data.user)     
             } else {
                 toast.error(data.message)
             }
@@ -109,6 +134,7 @@ const AppContextProvider = (props) => {
         }
     }
 
+    
     const fetchUserEnrolledCourses = async () => {
         try {
 
@@ -157,8 +183,12 @@ console.log(error.message);
         fetchDashboarddata()
         fetchEducatorCoursedata()
         fetchEducator()
-    }, [user])
+    },[user])
 
+
+
+
+    
 
     const noOfLecture = (chapter) => {
         let totalLecture = 0;
@@ -199,17 +229,18 @@ console.log(error.message);
     }
 
 
+    
+    
     useEffect(() => {
         if (user) {
             fetchUserData()
             fetchUserEnrolledCourses()
-
         }
     }, [user])
 
 
     const value = {
-        educatorCourses, userData, enrolledCourse, dashBoardData, isEducator, noOfLesson, setIsEducator, totalTimeOfCourse, isEnrolled, lecTime, totalTimeOfChapter, noOfLecture, allcourse, navigate, searchQuery, setSearchQuery, backendUrl, fetchAllCourses, getToken, setUserdata, setIsEnrolled, fetchUserEnrolledCourses
+          totalReviews, avgrating, educatorCourses, userData, enrolledCourse, dashBoardData, isEducator, noOfLesson, setIsEducator, totalTimeOfCourse, isEnrolled, lecTime, totalTimeOfChapter, noOfLecture, allcourse, navigate, searchQuery, setSearchQuery, backendUrl, fetchAllCourses, getToken, setUserdata, setIsEnrolled, fetchUserEnrolledCourses
     }
 
     return (
